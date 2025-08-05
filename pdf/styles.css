@@ -1,0 +1,511 @@
+/* Helwan University Inspired Color Palette */
+:root {
+    --helwan-blue: #003366;
+    --helwan-gold: #FFD700;
+    --background-white: #FFFFFF;
+    --background-light-gray: #F8F9FA;
+    --text-dark: #212529;
+    --text-light: #495057;
+    --border-color: #DEE2E6;
+    --error-red: #dc3545;
+
+    /* A11y: Define a consistent focus outline color for better visibility */
+    --focus-outline-color: #005fcc;
+}
+
+/* Self-Hosted Font Definition */
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  src: url('/fonts/IBMPlexSansArabic-Light.woff2') format('woff2');
+  /* A11y: Caution with light font weights on small text for readability. */
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  src: url('/fonts/IBMPlexSansArabic-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  src: url('/fonts/IBMPlexSansArabic-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  src: url('/fonts/IBMPlexSansArabic-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  src: url('/fonts/IBMPlexSansArabic-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* * A11y: Add a clear, consistent focus style for all interactive elements.
+ * Using :focus-visible ensures this style only applies for keyboard focus,
+ * not for mouse clicks, providing a cleaner experience for mouse users.
+*/
+:focus-visible {
+    outline: 3px solid var(--focus-outline-color);
+    outline-offset: 2px;
+    box-shadow: none; /* A11y: Override other shadows on focus for clarity */
+}
+
+/* Base and Typography */
+body {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    background-color: var(--background-white);
+    color: var(--text-dark);
+    line-height: 1.7;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 1rem 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2.8rem;
+    font-weight: 600;
+    color: var(--helwan-blue);
+    margin-bottom: 1.5rem;
+}
+
+h2 {
+    font-size: 1.8rem;
+    color: var(--text-dark);
+    border-bottom: 2px solid var(--helwan-gold);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+p, li {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+}
+
+strong {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+/* Card-like Section */
+.categories {
+    background-color: var(--background-light-gray);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    margin-top: 2rem;
+    transition: box-shadow 0.3s ease;
+}
+
+.categories:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+}
+
+/* Image Upload Container */
+#uploadContainer {
+    background-color: var(--background-white);
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2.5rem;
+}
+
+/* Image Gallery Grid */
+.image-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.image-gallery img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+/* Accordion Styling */
+details {
+    font-size: 1.1rem;
+}
+
+details > details {
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 0;
+}
+
+details > details:last-child {
+    border-bottom: none;
+}
+
+summary {
+    font-weight: 500;
+    cursor: pointer;
+    list-style: none; /* A11y: Removing list-style is okay if you provide other visual cues for interaction */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    transition: color 0.3s ease;
+    border-radius: 4px; /* A11y: Add border-radius to better contain the focus outline */
+}
+
+/* A11y: Ensure focus state has the same visual treatment as hover state */
+summary:hover,
+details[open] > summary {
+    color: var(--helwan-blue);
+}
+
+summary::-webkit-details-marker {
+    display: none;
+}
+
+summary::after {
+    content: '▼';
+    font-size: 0.8em;
+    transform: rotate(0deg);
+    transition: transform 0.3s ease-in-out;
+    /* A11y: In your HTML, consider adding aria-hidden="true" to this decorative element. */
+}
+
+details[open] > summary::after {
+    transform: rotate(180deg);
+}
+
+details .main-summary {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--helwan-blue);
+    padding: 0.5rem 0;
+}
+
+details[open] > summary {
+    font-weight: 600;
+}
+
+details > p,
+details > ul,
+details > ol {
+    margin-top: 1rem;
+    padding-right: 1rem;
+}
+
+/* File Upload Input */
+.uploader {
+    width: 100%;
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-size: 1rem;
+    margin-top: 1rem;
+    border-radius: 8px; /* A11y: Add radius to contain the focus outline */
+}
+
+.uploader::file-selector-button {
+    font-family: inherit;
+    font-weight: 500;
+    background-color: var(--background-light-gray);
+    color: var(--helwan-blue);
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    margin-left: 1rem;
+}
+
+/* A11y: Pair hover with focus-visible for keyboard users */
+.uploader::file-selector-button:hover,
+.uploader::file-selector-button:focus-visible {
+    background-color: #e9ecef;
+    border-color: #ced4da;
+}
+
+/* Note Styling */
+.note {
+    font-weight: bold;
+    color: var(--helwan-blue);
+    display: inline-block;
+    margin-right: 5px;
+}
+
+
+/* Search Container */
+/* A11y: In your HTML, consider using role="search" on the form element containing this. */
+.search-container {
+    text-align: center;
+    margin: 2rem auto;
+    width: 100%;
+    position: relative;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--background-light-gray);
+    padding: 1.5rem;
+    box-sizing: border-box;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    font-size: 1.1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 50px;
+    text-align: right;
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
+    /* A11y: In your HTML, ensure this input has a corresponding <label>. */
+}
+
+/* A11y: Remove the custom focus style here in favor of the global :focus-visible style for consistency. */
+#searchInput:focus {
+    outline: none; /* Let the global :focus-visible handle the outline */
+    border-color: var(--helwan-gold);
+    box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.25);
+}
+
+/* A11y: Ensure JavaScript adds ARIA attributes like aria-expanded, and that the container has an id linked by aria-controls. */
+.search-results {
+    width: 100%;
+    margin-top: 0.5rem;
+    background: var(--background-white);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    text-align: right;
+    max-height: 300px;
+    overflow-y: auto;
+    /* A11y: Consider using aria-live="polite" on this container so screen readers announce when results appear. */
+}
+
+.search-result-item {
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s;
+    font-size: 1rem;
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    /* A11y: In your HTML/JS, this should likely be a <button> or <a> for accessibility. */
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.search-result-item:hover {
+    background-color: var(--background-light-gray);
+}
+
+/* Overlay and Highlight */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 51, 102, 0.7);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 998;
+}
+
+.overlay.active {
+    opacity: 1;
+}
+
+.highlight-question {
+    position: relative;
+    z-index: 999;
+    animation: highlightPulse 2s ease-out;
+}
+
+@keyframes highlightPulse {
+    0%, 70% {
+        background-color: rgba(255, 215, 0, 0.2);
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+    }
+    100% {
+        background-color: transparent;
+        box-shadow: none;
+    }
+}
+
+/* Buttons */
+.button {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--background-white);
+    background-color: var(--helwan-blue);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    margin: 1.5rem 0;
+}
+
+/* A11y: Pair hover state with focus state */
+.button:hover, .button:focus-visible {
+    background-color: #00234d;
+    box-shadow: 0 4px 12px rgba(0, 51, 102, 0.2);
+}
+
+.btn-primary {
+    display: inline-block;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: var(--helwan-blue);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: #00234d;
+    transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    h1 {
+        font-size: 2.2rem;
+    }
+
+    .main-summary {
+        font-size: 1.5rem;
+    }
+
+    p, li, details {
+        font-size: 1rem;
+    }
+
+    #searchInput {
+        font-size: 1rem;
+        padding: 0.8rem 1rem;
+    }
+
+    .search-result-item {
+        font-size: 0.9rem;
+        padding: 0.8rem 1rem;
+    }
+
+    .button {
+        font-size: 1.1rem;
+        padding: 0.8rem;
+    }
+}
+
+/*
+ * A11y: Add media query for users who prefer reduced motion.
+ * This disables animations and transitions for a safer, more comfortable experience.
+*/
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .highlight-question {
+      animation: none;
+      background-color: rgba(255, 215, 0, 0.2); /* Provide a static highlight instead of pulsing */
+  }
+}
+
+
+#error {
+    display: none; /* Hidden by default */
+    margin-top: 0.5rem;
+    padding: 0.75rem;
+    background-color: #fffbe6;
+    border-right: 4px solid var(--helwan-gold);
+    border-radius: 4px;
+    font-size: 1rem;
+    text-align: right;
+}
+
+#error.visible {
+    display: block; /* Becomes visible when the class is added */
+}
+
+
+.card-section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background-color: var(--background-light-gray);
+}
+
+.input-group {
+    margin-bottom: 1rem;
+    text-align: right;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+.input-group .uploader {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* A11y: Ensure the error message has a role that announces it to screen readers. */
+#error:not(:empty) {
+    padding: 1rem;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-right-width: 5px;
+    border-right-color: var(--error-red);
+    border-radius: 8px;
+    color: #721c24;
+    /* A11y: In your JS, when adding an error message, set role="alert" or "status" to this element. */
+}
