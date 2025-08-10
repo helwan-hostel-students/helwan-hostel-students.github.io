@@ -55,6 +55,12 @@
   font-display: swap;
 }
 
+/* Selection Highlight */
+::selection {
+    background-color: var(--helwan-gold);
+    color: var(--helwan-blue);
+}
+
 /* * A11y: Add a clear, consistent focus style for all interactive elements.
  * Using :focus-visible ensures this style only applies for keyboard focus,
  * not for mouse clicks, providing a cleaner experience for mouse users.
@@ -387,6 +393,7 @@ details > ol {
 
 .btn-primary {
     display: inline-block;
+    margin: 10px;
     padding: 12px 25px;
     font-size: 1.1rem;
     font-weight: 600;
