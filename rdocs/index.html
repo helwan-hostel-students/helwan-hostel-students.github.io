@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طريقة ترتيبب مرفقات ملف التسكين</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>ترتيبب مرفقات ملف التسكين</h1>
+
+    <div class="controls">
+        <div class="toggle-container">
+            <label class="toggle-switch">
+                <input type="checkbox" id="visibility-toggle-checkbox">
+                <span class="slider"></span>
+            </label>
+            <span id="toggle-label">إظهار الكل</span>
+        </div>
+
+        <button id="clear-button">إلغاء تحديد الكل</button>
+    </div>
+
+    <div class="task-wrapper">
+        <ol id="task-list">
+            <li><input type="checkbox"> استمارة التسكين مستوفاه ومختومة من كلية الطالب (الاصل)</li>
+            <li><input type="checkbox"> خلفها عدد (٢) صوره ضوئية من استمارة التسكين المختومة</li>
+            <li><input type="checkbox"> خلفها أصل استمارة الضامن مختومة بختم شعار الجمهورية</li>
+            <li><input type="checkbox"> خلفها عدد (٢) صوره ضوئية من استمارة الضامن المختومة</li>
+            <li><input type="checkbox"> خلفها عدد (٢) صوره ضوئية من بطاقة الطالب + بطاقة ولى الامر + بطاقة الضامن (بطاقة سارية غير منتهية)</li>
+            <li><input type="checkbox"> خلفها عدد (٢) صوره ضوئية من شهادة الميلاد (مستجدين فقط)</li>
+            <li><input type="checkbox"> خلفها عدد (٢) صوره ضوئية من شهادة الثانوية العامة</li>
+            <li><input type="checkbox"> خلفها عدد (٢) صوره ضوئية من بطاقة الترشيح الخاصة (مستجدين فقط)</li>
+            <li><input type="checkbox"> خلفها أصل الكشف الطبي عليه عدد (٢) طابع الجامعة</li>
+            <li><input type="checkbox"> خلفها اقرار ولي الامر مستوفى البيانات (اصل بدون تصوير)</li>
+            <li><input type="checkbox"> خلفها ورقة التعليمات الخاصة بالمدينة الجامعية (أصل فقط)</li>
+            <li><input type="checkbox"> خلفها شهادة تحليل المخدرات مختومة</li>
+            <li><input type="checkbox"> خلفها عدد (٢) صوره من ايصال مصروفات الكلية</li>
+            <li><input type="checkbox"> خلفها صورة إيصال المرافق (كهرباء او مياه او غاز)</li>
+        </ol>
+    </div>
+</div>
+
+<script>
+    const taskList = document.getElementById('task-list');
+    const allTasks = document.querySelectorAll('#task-list li');
+    const visibilityToggle = document.getElementById('visibility-toggle-checkbox');
+    const toggleLabel = document.getElementById('toggle-label');
+    const clearBtn = document.getElementById('clear-button');
+
+    function saveTasks() {
+        const tasksState = [];
+        allTasks.forEach(li => {
+            const checkbox = li.querySelector('input[type="checkbox"]');
+            tasksState.push({ checked: checkbox.checked });
+        });
+        document.cookie = "tasksState=" + JSON.stringify(tasksState) + ";path=/;max-age=" + 60*60*24*365;
+    }
+
+    function loadTasks() {
+        const cookie = document.cookie.split('; ').find(row => row.startsWith('tasksState='));
+        if (cookie) {
+            const tasksState = JSON.parse(cookie.split('=')[1]);
+            tasksState.forEach((task, index) => {
+                const li = allTasks[index];
+                if (li) {
+                    const checkbox = li.querySelector('input[type="checkbox"]');
+                    checkbox.checked = task.checked;
+                    if (checkbox.checked) {
+                        li.classList.add('hidden');
+                    }
+                }
+            });
+        }
+    }
+
+    visibilityToggle.onchange = () => {
+        const isShowingAll = visibilityToggle.checked;
+
+        if (isShowingAll) {
+            toggleLabel.textContent = 'إخفاء المكتمل';
+            allTasks.forEach(li => {
+                const checkbox = li.querySelector('input[type="checkbox"]');
+                li.classList.remove('hidden'); 
+                if (checkbox.checked) {
+                    li.style.textDecoration = 'line-through';
+                }
+            });
+        } else {
+            toggleLabel.textContent = 'إظهار الكل';
+            allTasks.forEach(li => {
+                const checkbox = li.querySelector('input[type="checkbox"]');
+                li.style.textDecoration = 'none';
+                if (checkbox.checked) {
+                    li.classList.add('hidden');
+                }
+            });
+        }
+    };
+
+    clearBtn.onclick = () => {
+        if (confirm('هل أنت متأكد من أنك تريد إلغاء تحديد كل المهام؟')) {
+            allTasks.forEach(li => {
+                const checkbox = li.querySelector('input[type="checkbox"]');
+                checkbox.checked = false;
+                li.classList.remove('hidden');
+                li.style.textDecoration = 'none';
+            });
+            visibilityToggle.checked = false;
+            toggleLabel.textContent = 'إظهار الكل';
+            saveTasks();
+        }
+    };
+
+    allTasks.forEach(li => {
+        const checkbox = li.querySelector('input[type="checkbox"]');
+
+        checkbox.onchange = () => {
+            const isShowingAll = visibilityToggle.checked;
+            if (checkbox.checked) {
+                if (isShowingAll) {
+                    li.style.textDecoration = 'line-through';
+                } else {
+                    li.classList.add('hidden');
+                }
+            } else {
+                li.classList.remove('hidden');
+                li.style.textDecoration = 'none';
+            }
+            saveTasks();
+        };
+    });
+
+    document.addEventListener('DOMContentLoaded', loadTasks);
+
+</script>
+
+</body>
+</html>
